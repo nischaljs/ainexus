@@ -8,7 +8,7 @@ export enum ModelType {
     GPT4 = 'gpt-4',
     CLAUDE2 = 'claude-2',
     CLAUDE3 = 'claude-3'
-}/
+}
 
 
 export enum PromptType {
