@@ -42,6 +42,7 @@ export type TChatMessage = {
     human: HumanMessage;
     ai: AIMessage;
     rawHuman: string;
+    rawAI:string;
     props?: PromptProps;
     createdAt?: string
 }
@@ -55,7 +56,7 @@ export type TChatSession = {
 }
 
 export const useChatSession = () => {
-    const getSessions = async () => {
+    const getSessions = async ():Promise<TChatSession[]> => {
         return (await get('chat-sessions') || []);
     };
 
