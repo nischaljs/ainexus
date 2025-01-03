@@ -1,8 +1,9 @@
-import { PromptProps, TChatMessage, useChatSession } from "./use-chat-session"
+import { ModelType, PromptProps, TChatMessage, useChatSession } from "./use-chat-session"
 import { ChatOpenAI } from "@langchain/openai"
 import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts"
 import { v4 } from "uuid"
 import { AIMessage, HumanMessage } from "@langchain/core/messages"
+import { getInstruction, getRole } from "@/lib/prompts"
 
 
 
@@ -31,12 +32,25 @@ export const useLLM = () => {
         (acc:(HumanMessage | AIMessage) [],{rawAI,rawHuman})=>[
             ...acc,
             new HumanMessage(rawHuman),
-            new AIMessage(rawAI),
+            new AIMessage(rawAI || ""),
         ],
     []
+
+
 );
 
-//   TODO: needed to return something 
+    return await prompt.formatMessages(
+        messageHistory?.length>0  ? {
+            role:getRole(props.RoleType),
+            chat_history :previousMessageHistory,
+            input:props.query
+        }:{
+            role:getRole(props.RoleType),
+            type:getInstruction(props.type),
+            Context:props.context,
+            input:props.query
+        }
+    ) 
     }
     const runModel = async (props: PromptProps, sessionId: string) => {
         const currentSession = await getSessionById(sessionId);
@@ -53,6 +67,38 @@ export const useLLM = () => {
         const newMessageId = v4();
 
 
+        const formattedChatPrompt = await preparePrompt(
+            props,
+            currentSession?.messages || []
+        );
 
+        const stream = await model.stream(formattedChatPrompt)
+
+        let streamedMessage = ""
+
+
+        for await(const chunk of stream){
+            streamedMessage += chunk.content;
+        }
+
+
+        const chatMessage = {
+            id:newMessageId,
+            model:ModelType.GPT3,
+            human: new HumanMessage(props.query),
+            ai : new AIMessage(streamedMessage),
+            rawHuman:props.query,
+            rawAi:streamedMessage,
+            props,
+        };
+
+
+        addMessageToSession(sessionId,chatMessage);
+
+
+
+    }
+    return {
+        runModel
     }
 }

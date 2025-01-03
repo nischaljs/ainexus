@@ -42,7 +42,7 @@ export type TChatMessage = {
     human: HumanMessage;
     ai: AIMessage;
     rawHuman: string;
-    rawAI:string;
+    rawAI?:string;
     props?: PromptProps;
     createdAt?: string
 }
