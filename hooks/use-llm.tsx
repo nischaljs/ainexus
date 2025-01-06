@@ -7,10 +7,21 @@ import { getInstruction, getRole } from "@/lib/prompts"
 
 
 
+export type TStreamProps = {
+    props:PromptProps;
+    sessionId:string;
+    message:string ;
+}
 
 
+export type TUseLLM = {
+    onStreamStart : () =>void;
+    onStream : (props:TStreamProps) => Promise<void> ;
+    onStreamEnd: () => void
+}
 
-export const useLLM = () => {
+
+export const useLLM = ({onStream,onStreamEnd,onStreamStart}:TUseLLM) => {
 
     const { getSessionById, addMessageToSession } = useChatSession();
 
@@ -61,7 +72,7 @@ export const useLLM = () => {
         const apiKey = "";
         const model = new ChatOpenAI({
             modelName: "gpt-3.5-turbo",
-            openAIApiKey: apiKey
+            openAIApiKey: apiKey || process.env.PUBLIC_OPENAI_API_KEY
         })
 
         const newMessageId = v4();
@@ -77,8 +88,11 @@ export const useLLM = () => {
         let streamedMessage = ""
 
 
+        onStreamStart();
+
         for await(const chunk of stream){
             streamedMessage += chunk.content;
+            onStream({props,sessionId,message:streamedMessage});
         }
 
 
@@ -93,7 +107,9 @@ export const useLLM = () => {
         };
 
 
-        addMessageToSession(sessionId,chatMessage);
+        addMessageToSession(sessionId,chatMessage).then(()=>{
+            onStreamEnd();
+        });
 
 
 

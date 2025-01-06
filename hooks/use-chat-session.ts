@@ -1,5 +1,7 @@
 import { AIMessage, HumanMessage } from '@langchain/core/messages';
 import { get, set } from "idb-keyval";
+import { title } from 'process';
+import { v4 } from 'uuid';
 
 
 
@@ -92,6 +94,25 @@ export const useChatSession = () => {
     }
 
 
+    const createNewSession = async()=>{
+        const sessions = await getSessions();
+        const LatestSession = sessions?.[0];
+
+        if(LatestSession?.messages?.length ===0){
+            return LatestSession;
+        }
+        const newSession :  TChatSession = {
+            id:v4(),
+            messages : [],
+            title:"Untitled",
+            createdAt:new Date().toISOString(),
+        }
+
+        const newSessions  = [...sessions, newSession];
+        await set("chat-sessions",newSessions);
+    }
+
+
     const updateSession = async (sessionId:string, newSession:Omit<TChatSession,"id">)=>{
         const sessions = await getSessions();
         const newSessions = sessions.map((session:TChatSession)=>{
@@ -112,6 +133,7 @@ export const useChatSession = () => {
         getSessionById,
         removeSessionById,
         addMessageToSession,
-        updateSession
+        updateSession,
+        createNewSession
     }
 }
