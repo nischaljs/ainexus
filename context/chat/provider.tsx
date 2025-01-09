@@ -62,7 +62,7 @@ export type TChatProvider = {
          fetchSessions();
     }
     return (
-        <ChatContext.Provider value={{ chatSession: [] }}>
+        <ChatContext.Provider value={{ sessions, refetchSessions,isSessionLoading, createSession, runModel, lastStream }}>
             {children}
         </ChatContext.Provider>
     );

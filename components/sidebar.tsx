@@ -1,10 +1,14 @@
 "use client"
 
-import { useChatSession } from "@/hooks/use-chat-session"
+import { useChatContext } from "@/context/chat/context";
+import React from "react";
 
 
-export const Sidebar = () =>{
-    const {sessions} = useChatSession();
-
-
+export const Sidebar:React.FC = ()  =>   {
+    const {sessions, createSession} = useChatContext();
+return (
+    <div>
+        
+    </div>
+)
 }
