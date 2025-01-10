@@ -52,11 +52,11 @@ export const useLLM = ({onStream,onStreamEnd,onStreamStart}:TUseLLM) => {
 
     return await prompt.formatMessages(
         messageHistory?.length>0  ? {
-            role:getRole(props.RoleType),
+            role:getRole(props.role),
             chat_history :previousMessageHistory,
             input:props.query
         }:{
-            role:getRole(props.RoleType),
+            role:getRole(props.role),
             type:getInstruction(props.type),
             Context:props.context,
             input:props.query

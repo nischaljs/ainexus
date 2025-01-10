@@ -33,7 +33,7 @@ export enum RoleType {
 export type PromptProps = {
     type: PromptType;
     context?: string;
-    RoleType: RoleType;
+    role: RoleType;
     query?: string;
     regenerate?: boolean
 }
