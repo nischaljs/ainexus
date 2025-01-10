@@ -21,16 +21,16 @@ export type TChatProvider = {
     const [lastStream, setLastStream] = useState<TStreamProps>();
 
     const {runModel} = useLLM({
-        onStreamStart :()=>{
+        onStreamStart :  ()=>{
             setLastStream(undefined)
-            refetchSessions();
+              refetchSessions();
         },
-        onStream: async (props) =>{
-            setLastStream(props)
+        onStream: async  (props) =>{
+             setLastStream(props)
         },
-        onStreamEnd : () =>{
+        onStreamEnd :  () =>{
             fetchSessions().then(()=>{
-                setLastStream(undefined);
+                 setLastStream(undefined);
             })
         }
     })

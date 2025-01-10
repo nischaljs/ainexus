@@ -9,7 +9,8 @@ export enum ModelType {
     GPT3 = 'gpt-3',
     GPT4 = 'gpt-4',
     CLAUDE2 = 'claude-2',
-    CLAUDE3 = 'claude-3'
+    CLAUDE3 = 'claude-3',
+    GEMINIFLASH = 'gemini1.5-flash'
 }
 
 
