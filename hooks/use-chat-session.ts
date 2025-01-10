@@ -59,7 +59,14 @@ export type TChatSession = {
 
 export const useChatSession = () => {
     const getSessions = async ():Promise<TChatSession[]> => {
-        return (await get('chat-sessions') || []);
+        const demoSession: TChatSession = {
+            id: v4(),
+            messages: [],
+            title: "Demo Session",
+            createdAt: new Date().toISOString()
+        };
+        const sessions = (await get('chat-sessions')) || [demoSession];
+        return sessions;
     };
 
     const setSession = async (chatSession: TChatSession) => {
