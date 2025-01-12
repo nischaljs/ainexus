@@ -14,6 +14,7 @@ export const ChatMessages = () => {
 
   const fetchSession = async () => {
     getSessionById(sessionId!.toString()).then((session) => {
+      if(!session) return;
       setCurrentSession(session);
     })
   }
@@ -42,7 +43,7 @@ export const ChatMessages = () => {
       {currentSession?.messages.map((message) => (
         <div className="p-2" key={message.id}>
           {message.rawHuman}
-          {message.rawAI}
+          {message.rawAi}
         </div>
       ))}
       {

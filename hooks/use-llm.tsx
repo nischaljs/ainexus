@@ -57,10 +57,10 @@ export const useLLM = ({ onStream, onStreamEnd, onStreamStart }: TUseLLM) => {
         );
 
         const previousMessageHistory = messageHistory.reduce(
-            (acc: (HumanMessage | AIMessage)[], { rawAI, rawHuman }) => [
+            (acc: (HumanMessage | AIMessage)[], { rawAi, rawHuman }) => [
                 ...acc,
                 new HumanMessage(rawHuman),
-                new AIMessage(rawAI || ""),
+                new AIMessage(rawAi || ""),
             ],
             []
         );
@@ -104,6 +104,7 @@ export const useLLM = ({ onStream, onStreamEnd, onStreamStart }: TUseLLM) => {
         );
 
         const stream = await model.stream(formattedChatPrompt);
+        console.log(stream, 'streamed message looks like this ');
 
         let streamedMessage = "";
 

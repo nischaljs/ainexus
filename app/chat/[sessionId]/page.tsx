@@ -9,7 +9,7 @@ const ChatSessionPage = () => {
   const { sessionId } = useParams();
 
   return (
-    <div className="w-full h-screen flex flex-row">
+    <div className="w-full h-screen flex flex-col">
       <ChatMessages />
       <ChatInput />
     </div>
