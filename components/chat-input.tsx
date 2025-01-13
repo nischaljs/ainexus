@@ -17,7 +17,7 @@ export const ChatInput = () => {
     if (e.key === "Enter" && !isSubmitting && inputValue.trim()) {
       setIsSubmitting(true);
       try {
-        await runModel(
+        runModel(
           {
             role: RoleType.assistant,
             type: PromptType.ask,
