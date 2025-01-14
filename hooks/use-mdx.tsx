@@ -1,3 +1,4 @@
+import { CodeBlock } from "@/components/codeblock";
 import Markdown from "marked-react";
 import { ReactNode } from "react";
 
@@ -14,8 +15,7 @@ export const useMarkDown = () => {
           ),
           heading: (children: ReactNode, level: number) => {
             const Heading = `h${level}`;
-
-            return <h1 className="font-medium text-md">{children}</h1>;
+            return <Heading className="font-medium text-md">{children}</Heading>;
           },
           link: (href: string, text: string) => {
             return (
@@ -42,15 +42,19 @@ export const useMarkDown = () => {
               </List>
             );
           },
-          listItem: (children: ReactNode) => (
-            <li className="my-4">
-              <p className="leading-7 text-sm">{children}</p>
-            </li>
+          listItem: (children: ReactNode[]) => (
+            <>
+              {children.map((child, index) => (
+                <li key={index} className="my-4">
+                  <p className="leading-7 text-sm">{child}</p>
+                </li>
+              ))}
+            </>
           ),
           code: (code: string, lang: string) => (
             <div className="my-8">
               <pre>
-                <code>{code}</code>
+                <CodeBlock code={code} lang={lang} /> 
               </pre>
             </div>
           ),
@@ -60,6 +64,7 @@ export const useMarkDown = () => {
             </span>
           ),
         }}
+        key={message}
       >
         {message}
       </Markdown>
