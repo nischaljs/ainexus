@@ -1,7 +1,7 @@
 "use client"
 
-import { useContext } from "react";
-import { createContext } from "vm"
+import { createContext, useContext } from "react";
+
 
 
 
@@ -15,7 +15,7 @@ export const FiltersContext = createContext<TFilterContext | undefined>(undefine
 
 export const useFilters = () =>{
     const  context = useContext(FiltersContext);
-    if(context ==="undefined"){
+    if(context ===undefined){
         throw new Error ("useFilters must be used within the Filterprovider");
     }
     return context;
