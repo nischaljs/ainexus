@@ -14,7 +14,7 @@ export const Sidebar: React.FC = () => {
       await createSession();
       push(`/chat/${sessions[sessions?.length-1].id}`);
     } catch (error) {
-      console.error("Failed to create session:", error);
+      console.error("Failed to create sessions:", error);
     }
   };
 
