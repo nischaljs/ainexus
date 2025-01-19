@@ -1,6 +1,5 @@
 import { useChatContext } from "@/context/chat/context";
 import { TChatSession, useChatSession } from "@/hooks/use-chat-session";
-import { useMarkDown } from "@/hooks/use-mdx";
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react";
 
@@ -9,7 +8,6 @@ import { useEffect, useState } from "react";
 export const ChatMessages = () => {
   const { sessionId } = useParams();
   const { lastStream } = useChatContext();
-  const{renderMarkdown}  = useMarkDown();
   const [currentSession, setCurrentSession] = useState<TChatSession | undefined>();
 
   const { getSessionById } = useChatSession();
@@ -45,14 +43,14 @@ export const ChatMessages = () => {
       {currentSession?.messages.map((message) => (
         <div className="p-2" key={message.id}>
           {message.rawHuman}
-          {renderMarkdown(message.rawAi || "AI didnot respond")}
+          {message.rawAi}
         </div>
       ))}
       {
         isLastStreamBelongsToCurrentSession && (
           <div className="p-2">
             {lastStream?.props?.query}
-            {renderMarkdown(lastStream?.message || "processing....")}
+            {lastStream?.message}
           </div>
         )
       }
